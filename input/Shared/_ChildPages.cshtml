@@ -1,10 +1,10 @@
 @{	
-	IReadOnlyList<IDocument> children = Model.DocumentList(Keys.Children);
+	IReadOnlyList<IDocument> children = Model.GetDocumentList(Keys.Children);
 	if(children != null && children.Count > 0)
 	{
 		IList<IGrouping<string, IDocument>> categoryGroups = 
 			children
-				.GroupBy(x => x.String(DocsKeys.Category))
+				.GroupBy(x => x.GetString(DocsKeys.Category))
 				.OrderBy(x => x.Key)
 				.ToList();
 	
@@ -23,16 +23,16 @@
 						<tbody>
 							@foreach(IDocument child in categoryGroup
 								.OrderBy(x => x.Get<int>(DocsKeys.Order, 1000))
-								.ThenBy(x => x.WithoutSettings.String(Keys.Title)))
+								.ThenBy(x => x.WithoutSettings().GetString(Keys.Title)))
 							{
 								object[] childTreePath = child.Get<object[]>(Keys.TreePath);
 								<tr>
-									<td><strong><a href="@Context.GetLink(child)">@(child.WithoutSettings.String(Keys.Title, childTreePath.Last().ToString()))</a></strong></td>
+									<td><strong><a href="@Context.GetLink(child)">@(child.WithoutSettings().GetString(Keys.Title, childTreePath.Last().ToString()))</a></strong></td>
 									<td>
 										@{
 											if(child.ContainsKey(DocsKeys.Description))
 											{
-												<text>@(child.String(DocsKeys.Description))</text>
+												<text>@(child.GetString(DocsKeys.Description))</text>
 											}					
 										}
 									</td>

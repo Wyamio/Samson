@@ -1,7 +1,7 @@
 @using Microsoft.AspNetCore.Html;
 @{
-	IList<IDocument> fields = Model.List<IDocument>("Members")
-		?.Where(x => x.Bool("IsResult") && x.String("Kind") == "Field")
+	IList<IDocument> fields = Model.GetList<IDocument>("Members")
+		?.Where(x => x.GetBool("IsResult") && x.GetString("Kind") == "Field")
 		.OrderBy(x => x["DisplayName"])
 		.ToList();
 	if(fields.Count > 0)
@@ -22,16 +22,16 @@
 						{
 							<tr>
 								<td>@Context.GetTypeLink(field, false)</td>
-								<td>@(field.Bool(CodeAnalysisKeys.HasConstantValue) ? new HtmlString(field.Get(CodeAnalysisKeys.ConstantValue)?.ToString() ?? "null") : new HtmlString(string.Empty))</td>
+								<td>@(field.GetBool(CodeAnalysisKeys.HasConstantValue) ? new HtmlString(field.Get(CodeAnalysisKeys.ConstantValue)?.ToString() ?? "null") : new HtmlString(string.Empty))</td>
 								<td>
 									<div>@Html.Raw(field["Summary"])</div>
 									@{
-										IDocument containingType = field.Document(CodeAnalysisKeys.ContainingType);
+										IDocument containingType = field.GetDocument(CodeAnalysisKeys.ContainingType);
 										if(containingType != Model)
 										{
 											<div><small><em>Inherited from @Context.GetTypeLink(containingType)</em></small></div>
 										}
-										if(field.Bool(CodeAnalysisKeys.IsStatic))
+										if(field.GetBool(CodeAnalysisKeys.IsStatic))
 										{
 											<div><small><em>static</em></small></div>
 										}

@@ -1,6 +1,6 @@
 @{
 	Layout = "/_Master.cshtml";
-	ViewData[Keys.Title] = @Model.WithoutSettings.String(Keys.Title);
+	ViewData[Keys.Title] = @Model.WithoutSettings().GetString(Keys.Title);
 }
 
 @section Infobar {	
@@ -27,13 +27,13 @@
 	}
 }
 
-@if(Model.Bool(DocsKeys.NoContainer, false))
+@if(Model.GetBool(DocsKeys.NoContainer, false))
 {
 	@RenderBody()
 }
 else
 {
-	@if(!Model.Bool(DocsKeys.NoTitle, false))
+	@if(!Model.GetBool(DocsKeys.NoTitle, false))
 	{
 		<section class="content-header">
 			<h1>@ViewData[Keys.Title]</h1>

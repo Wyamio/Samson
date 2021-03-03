@@ -1,6 +1,6 @@
 @using Microsoft.AspNetCore.Html;
 @{
-	IList<IDocument> operators = Model.List<IDocument>(CodeAnalysisKeys.Operators)
+	IList<IDocument> operators = Model.GetList<IDocument>(CodeAnalysisKeys.Operators)
 		.OrderBy(x => x["DisplayName"])
 		.ToList();
 	if(operators.Count > 0)
@@ -26,7 +26,7 @@
 								<td>
 									<div>@Html.Raw(op.Get("Summary"))</div>
 									@{
-										IDocument containingType = op.Document(CodeAnalysisKeys.ContainingType);
+										IDocument containingType = op.GetDocument(CodeAnalysisKeys.ContainingType);
 										if(containingType != Model)
 										{
 											<div><small><em>Inherited from @Context.GetTypeLink(containingType)</em></small></div>

@@ -1,7 +1,7 @@
 @using Microsoft.AspNetCore.Html;
 @{
-	IList<IDocument> methods = Model.List<IDocument>("Members")
-		?.Where(x => x.Bool("IsResult") && x.String("Kind") == "Method")
+	IList<IDocument> methods = Model.GetList<IDocument>("Members")
+		?.Where(x => x.GetBool("IsResult") && x.GetString("Kind") == "Method")
 		.OrderBy(x => x["DisplayName"])
 		.ToList();
 	if(methods.Count > 0)
@@ -27,12 +27,12 @@
 								<td>
 									<div>@Html.Raw(method["Summary"])</div>
 									@{
-										IDocument containingType = method.Document(CodeAnalysisKeys.ContainingType);
+										IDocument containingType = method.GetDocument(CodeAnalysisKeys.ContainingType);
 										if(containingType != Model)
 										{
 											<div><small><em>Inherited from @Context.GetTypeLink(containingType)</em></small></div>
 										}
-										if(method.Bool(CodeAnalysisKeys.IsStatic))
+										if(method.GetBool(CodeAnalysisKeys.IsStatic))
 										{
 											<div><small><em>static</em></small></div>
 										}

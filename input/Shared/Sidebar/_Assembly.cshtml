@@ -1,9 +1,9 @@
 <li class="header">Assemblies</li>   
 @{
-    IReadOnlyList<IDocument> assemblies = 
-        Documents.FromPipeline(Docs.Api)
-			.Where(x => x.String("Kind") == "Assembly")
-            .OrderBy(x => x.String("DisplayName"))
+    IReadOnlyList<IDocument> assemblies =
+        Outputs.FromPipeline(nameof(ApiPipeline))
+            .Where(x => x.GetString("Kind") == "Assembly")
+            .OrderBy(x => x.GetString("DisplayName"))
             .ToList();
     foreach(IDocument assembly in assemblies)
     {

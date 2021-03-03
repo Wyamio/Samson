@@ -1,7 +1,7 @@
 @foreach(IGrouping<string, IDocument> typeGroup 
-    in Documents.FromPipeline(Docs.Api)
-        .Where(x => x.Bool("IsResult") && x["Kind"].Equals("NamedType") && x.Document("ContainingAssembly") == Model)
-        .GroupBy(x => x.String("SpecificKind"))
+    in Outputs.FromPipeline(nameof(ApiPipeline))
+        .Where(x => x.GetBool("IsResult") && x["Kind"].Equals("NamedType") && x.GetDocument("ContainingAssembly") == Model)
+        .GroupBy(x => x.GetString("SpecificKind"))
         .OrderBy(x => x.Key))
 {
     @Html.Partial("Section\\_DocsTable", new DocsTable
