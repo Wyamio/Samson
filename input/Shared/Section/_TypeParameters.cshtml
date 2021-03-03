@@ -1,7 +1,7 @@
 @using Microsoft.AspNetCore.Html;
 @{
-	IReadOnlyList<IDocument> typeParameters = Model.List<IDocument>("TypeParameters");
-	IReadOnlyList<ReferenceComment> typeParams = Model.List<ReferenceComment>("TypeParams");
+	IReadOnlyList<IDocument> typeParameters = Model.GetList<IDocument>("TypeParameters");
+	IReadOnlyList<ReferenceComment> typeParams = Model.GetList<ReferenceComment>("TypeParams");
 }
 @if(typeParameters != null && typeParameters.Count > 0)
 {
@@ -19,7 +19,7 @@
 				{
 					IDocument declaringType = typeParam.Get<IDocument>("DeclaringType");
 					<tr id="typeparam-@typeParam["Name"]">
-						<td>@(declaringType != null && declaringType["SymbolId"].Equals(Model["SymbolId"]) ? new HtmlString(typeParam.String("Name")) : Context.GetTypeLink(typeParam, false))</td>
+						<td>@(declaringType != null && declaringType["SymbolId"].Equals(Model["SymbolId"]) ? new HtmlString(typeParam.GetString("Name")) : Context.GetTypeLink(typeParam, false))</td>
 						<td>@Html.Raw(typeParams?.Where(x => x.Name.Equals(typeParam["Name"])).Select(x => x.Html).FirstOrDefault())</td>
 					</tr>
 				}

@@ -1,6 +1,6 @@
 @using Microsoft.AspNetCore.Html;
 @{
-	IReadOnlyList<IDocument> attributes = Model.List<IDocument>(CodeAnalysisKeys.Attributes);
+	IReadOnlyList<IDocument> attributes = Model.GetList<IDocument>(CodeAnalysisKeys.Attributes);
 }
 @if(attributes != null && attributes.Count > 0)
 {
@@ -16,10 +16,10 @@
 				</thead>
 				@foreach(IDocument attribute in attributes)
 				{
-					IDocument type = attribute.Document(CodeAnalysisKeys.Type);
+					IDocument type = attribute.GetDocument(CodeAnalysisKeys.Type);
 					<tr>
 						<td>@Context.GetTypeLink(type)</td>
-						<td>@Html.Raw(type.String("Summary"))</td>
+						<td>@Html.Raw(type.GetString("Summary"))</td>
 					</tr>
 				}
 			</table>

@@ -1,5 +1,5 @@
 @{
-	IReadOnlyList<string> seeAlso = Model.List<string>("SeeAlso");
+	IReadOnlyList<string> seeAlso = Model.GetList<string>("SeeAlso");
 }
 @if(seeAlso != null && seeAlso.Count > 0)
 {

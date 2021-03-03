@@ -1,7 +1,7 @@
 @using Microsoft.AspNetCore.Html;
 @{
 	IDocument returnType = Model.Get<IDocument>("ReturnType");
-	string returns = Model.String("Returns");
+	string returns = Model.GetString("Returns");
 }
 @if(returnType != null || !string.IsNullOrWhiteSpace(returns))
 {

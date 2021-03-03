@@ -1,7 +1,7 @@
 @using Microsoft.AspNetCore.Html;
 @{
-	IList<IDocument> events = Model.List<IDocument>("Members")
-		?.Where(x => x.Bool("IsResult") && x.String("Kind") == "Event")
+	IList<IDocument> events = Model.GetList<IDocument>("Members")
+		?.Where(x => x.GetBool("IsResult") && x.GetString("Kind") == "Event")
 		.OrderBy(x => x["DisplayName"])
 		.ToList();
 	if(events.Count > 0)
@@ -27,12 +27,12 @@
 								<td>
 									<div>@Html.Raw(evt["Summary"])</div>
 									@{
-										IDocument containingType = evt.Document(CodeAnalysisKeys.ContainingType);
+										IDocument containingType = evt.GetDocument(CodeAnalysisKeys.ContainingType);
 										if(containingType != Model)
 										{
 											<div><small><em>Inherited from @Context.GetTypeLink(containingType)</em></small></div>
 										}
-										if(evt.Bool(CodeAnalysisKeys.IsStatic))
+										if(evt.GetBool(CodeAnalysisKeys.IsStatic))
 										{
 											<div><small><em>static</em></small></div>
 										}
