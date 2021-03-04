@@ -22,29 +22,29 @@
 		<li role="separator" class="divider"></li>
 		
 		IReadOnlyList<IDocument> constructors = containingType
-			.List<IDocument>("Constructors")
-			.Where(x => x.Bool("IsResult"))
+			.GetList<IDocument>("Constructors")
+			.Where(x => x.GetBool("IsResult"))
 			.ToList();
 		if(constructors != null && constructors.Count > 0)
 		{
 			<li class="header">Constructors</li>
 			foreach(IDocument constructor in constructors)
 			{
-				string selectedClass = constructor.String("SymbolId") == Model.String("SymbolId") ? "selected" : null;
+				string selectedClass = constructor.GetString("SymbolId") == Model.GetString("SymbolId") ? "selected" : null;
 				<li class="@selectedClass">@Context.GetTypeLink(constructor, false)</li>
 			}
 		}			
 	
 		foreach(IGrouping<string, IDocument> memberGroup 
-			in containingType.List<IDocument>("Members")
-				.Where(x => x.Bool("IsResult"))
-				.GroupBy(x => x.String("Kind")))
+			in containingType.GetList<IDocument>("Members")
+				.Where(x => x.GetBool("IsResult"))
+				.GroupBy(x => x.GetString("Kind")))
 		{
 			<li class="header">@memberGroup.Key Members</li>
 			foreach(IDocument member in memberGroup
-				.OrderBy(x => x.String("Name")))
+				.OrderBy(x => x.GetString("Name")))
 			{
-				string selectedClass = member.String("SymbolId") == Model.String("SymbolId") ? "selected" : null;
+				string selectedClass = member.GetString("SymbolId") == Model.GetString("SymbolId") ? "selected" : null;
 				<li class="@selectedClass">@Context.GetTypeLink(member, false)</li>
 			}	
 		}

@@ -1,32 +1,32 @@
 <li class="header">Namespaces</li>   
 @{
-	IList<Tuple<string, IDocument>> namespaces 
-		= Documents.FromPipeline(Docs.Api)
-			.Where(x => x.String("Kind") == "Namespace")
-			.Select(x => Tuple.Create(x.String("DisplayName"), x))
-			.OrderBy(x => x.Item1)
-			//.Select(x => Tuple.Create(x.Item1.Split('.'), x.Item2))
-			.ToList();
-	Stack<string> nestingStack = new Stack<string>();
-	for(int c = 0 ; c < namespaces.Count ; c++)
-	{
-		Tuple<string, IDocument> current = namespaces[c];
-		string next = c < namespaces.Count - 1 ? namespaces[c + 1].Item1 : null;
-			
-		// End nesting
-		while(nestingStack.Count > 0 && !current.Item1.StartsWith(nestingStack.Peek() + "."))
-		{
+    IList<Tuple<string, IDocument>> namespaces
+        = Outputs.FromPipeline(nameof(ApiPipeline))
+            .Where(x => x.GetString("Kind") == "Namespace")
+            .Select(x => Tuple.Create(x.GetString("DisplayName"), x))
+            .OrderBy(x => x.Item1)
+            //.Select(x => Tuple.Create(x.Item1.Split('.'), x.Item2))
+            .ToList();
+    Stack<string> nestingStack = new Stack<string>();
+    for(int c = 0 ; c < namespaces.Count ; c++)
+    {
+        Tuple<string, IDocument> current = namespaces[c];
+        string next = c < namespaces.Count - 1 ? namespaces[c + 1].Item1 : null;
+
+        // End nesting
+        while(nestingStack.Count > 0 && !current.Item1.StartsWith(nestingStack.Peek() + "."))
+        {
 			@Html.Raw("</ul></li>");
 			nestingStack.Pop();
 		}
 
 		// Start nesting
-		string selectedClass = Model.String("Kind") == "Namespace" && Model.String("DisplayName") == current.Item1
+		string selectedClass = Model.GetString("Kind") == "Namespace" && Model.GetString("DisplayName") == current.Item1
 			? " selected" : null;
 		if(next != null && next.StartsWith(current.Item1 + "."))
 		{
-			string activeClass = Model.String("Kind") == "Namespace" 
-				&& (selectedClass != null || Model.String("DisplayName").StartsWith(current.Item1 + ".")) 
+			string activeClass = Model.GetString("Kind") == "Namespace" 
+				&& (selectedClass != null || Model.GetString("DisplayName").StartsWith(current.Item1 + ".")) 
 				? " active" : null;
 			@Html.Raw($@"
 				<li class=""treeview{activeClass}{selectedClass}"">
