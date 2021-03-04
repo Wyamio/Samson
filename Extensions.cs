@@ -16,22 +16,22 @@ namespace Generator
     /// </summary>
     public static class Extensions
     {
-        public static HtmlString Name(this IMetadata metadata) => new HtmlString(FormatName(metadata.GetString(CodeAnalysisKeys.DisplayName)));
+        public static HtmlString Name(this IDocument document) => new HtmlString(FormatName(document.GetString(CodeAnalysisKeys.DisplayName)));
 
-        public static HtmlString GetTypeLink(this IExecutionContext context, IMetadata metadata) => context.GetTypeLink(metadata, null, true);
+        public static HtmlString GetTypeLink(this IExecutionContext context, IDocument document) => context.GetTypeLink(document, null, true);
 
-        public static HtmlString GetTypeLink(this IExecutionContext context, IMetadata metadata, bool linkTypeArguments) => context.GetTypeLink(metadata, null, linkTypeArguments);
+        public static HtmlString GetTypeLink(this IExecutionContext context, IDocument document, bool linkTypeArguments) => context.GetTypeLink(document, null, linkTypeArguments);
 
-        public static HtmlString GetTypeLink(this IExecutionContext context, IMetadata metadata, string name) => context.GetTypeLink(metadata, name, true);
+        public static HtmlString GetTypeLink(this IExecutionContext context, IDocument document, string name) => context.GetTypeLink(document, name, true);
 
-        public static HtmlString GetTypeLink(this IExecutionContext context, IMetadata metadata, string name, bool linkTypeArguments)
+        public static HtmlString GetTypeLink(this IExecutionContext context, IDocument document, string name, bool linkTypeArguments)
         {
-            name = name ?? metadata.GetString(CodeAnalysisKeys.DisplayName);
+            name = name ?? document.GetString(CodeAnalysisKeys.DisplayName);
 
             // Link nullable types to their type argument
-            if (metadata.GetString("Name") == "Nullable")
+            if (document.GetString("Name") == "Nullable")
             {
-                IDocument nullableType = metadata.GetDocumentList(CodeAnalysisKeys.TypeArguments)?.FirstOrDefault();
+                IDocument nullableType = document.GetDocumentList(CodeAnalysisKeys.TypeArguments)?.FirstOrDefault();
                 if (nullableType != null)
                 {
                     return context.GetTypeLink(nullableType, name);
@@ -42,11 +42,11 @@ namespace Generator
             name = FormatName(name);
 
             // Link the type and type parameters seperatly for generic types
-            IReadOnlyList<IDocument> typeArguments = metadata.GetDocumentList(CodeAnalysisKeys.TypeArguments);
+            IReadOnlyList<IDocument> typeArguments = document.GetDocumentList(CodeAnalysisKeys.TypeArguments);
             if (typeArguments?.Count > 0)
             {
                 // Link to the original definition of the generic type
-                metadata = metadata.GetDocument(CodeAnalysisKeys.OriginalDefinition) ?? metadata;
+                document = document.GetDocument(CodeAnalysisKeys.OriginalDefinition) ?? document;
 
                 if (linkTypeArguments)
                 {
@@ -61,9 +61,9 @@ namespace Generator
                         .Insert(begin, string.Join(", <wbr>", typeArguments.Select(x => context.GetTypeLink(x, true).Value)));
 
                     // Insert the link for the type
-                    if (metadata.ContainsKey("Destination"))
+                    if (!document.Destination.IsNull)
                     {
-                        name = name.Insert(begin - 9, "</a>").Insert(0, $"<a href=\"{context.GetLink(metadata.GetPath("Destination"))}\">");
+                        name = name.Insert(begin - 9, "</a>").Insert(0, $"<a href=\"{context.GetLink(document.Destination)}\">");
                     }
 
                     return new HtmlString(name);
@@ -71,20 +71,20 @@ namespace Generator
             }
 
             // If it's a type parameter, create an anchor link to the declaring type's original definition
-            if (metadata.GetString("Kind") == "TypeParameter")
+            if (document.GetString("Kind") == "TypeParameter")
             {
-                IDocument declaringType = metadata.GetDocument(CodeAnalysisKeys.DeclaringType)?.GetDocument(CodeAnalysisKeys.OriginalDefinition);
+                IDocument declaringType = document.GetDocument(CodeAnalysisKeys.DeclaringType)?.GetDocument(CodeAnalysisKeys.OriginalDefinition);
                 if (declaringType != null)
                 {
-                    return new HtmlString(declaringType.ContainsKey("Destination")
-                        ? $"<a href=\"{context.GetLink(declaringType.GetPath("Destination"))}#typeparam-{metadata["Name"]}\">{name}</a>"
-                        : name);
+                    return new HtmlString(declaringType.Destination.IsNull
+                        ? name
+                        : $"<a href=\"{context.GetLink(declaringType.Destination)}#typeparam-{document["Name"]}\">{name}</a>");
                 }
             }
 
-            return new HtmlString(metadata.ContainsKey("Destination")
-                ? $"<a href=\"{context.GetLink(metadata.GetPath("Destination"))}\">{name}</a>"
-                : name);
+            return new HtmlString(document.Destination.IsNull
+                ? name
+                : $"<a href=\"{context.GetLink(document.Destination)}\">{name}</a>");
         }
 
         // https://stackoverflow.com/a/3143036/807064
