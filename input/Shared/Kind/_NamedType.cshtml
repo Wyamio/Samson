@@ -92,9 +92,9 @@
 								for(int b = 0 ; b < baseTypes.Count ; b++)
 								{
 									hierarchy.AppendLine($"\t{(b == 0 ? "Type" : "Base" + (b - 1))}-->Base{b}[\"{System.Net.WebUtility.HtmlEncode(baseTypes[b].GetString(CodeAnalysisKeys.DisplayName))}\"]");
-									if(baseTypes[b].ContainsKey("Destination"))
+									if(!baseTypes[b].Destination.IsNull)
 									{
-										hierarchy.AppendLine($"\tclick Base{b} \"{(Context.GetLink(baseTypes[b].GetPath("Destination")))}\"");
+										hierarchy.AppendLine($"\tclick Base{b} \"{(Context.GetLink(baseTypes[b].Destination))}\"");
 									}
 								}
 							}
@@ -103,9 +103,9 @@
 								for(int c = 0 ; c < allInterfaces.Count ; c++)
 								{
 									hierarchy.AppendLine($"\tType-.->Interface{c}[\"{System.Net.WebUtility.HtmlEncode(allInterfaces[c].GetString(CodeAnalysisKeys.DisplayName))}\"]");			
-									if(allInterfaces[c].ContainsKey("Destination"))
+									if(!allInterfaces[c].Destination.IsNull)
 									{
-										hierarchy.AppendLine($"\tclick Interface{c} \"{(Context.GetLink(allInterfaces[c].GetPath("Destination")))}\"");
+										hierarchy.AppendLine($"\tclick Interface{c} \"{(Context.GetLink(allInterfaces[c].Destination))}\"");
 									}				
 								}
 							}
@@ -116,9 +116,9 @@
 								for(int c = 0 ; c < derivedTypes.Count ; c++)
 								{
 									hierarchy.AppendLine($"\tDerived{c}[\"{System.Net.WebUtility.HtmlEncode(derivedTypes[c].GetString(CodeAnalysisKeys.DisplayName))}\"]-->Type");							
-									if(derivedTypes[c].ContainsKey("Destination"))
+									if(!derivedTypes[c].Destination.IsNull)
 									{
-										hierarchy.AppendLine($"\tclick Derived{c} \"{(Context.GetLink(derivedTypes[c].GetPath("Destination")))}\"");
+										hierarchy.AppendLine($"\tclick Derived{c} \"{(Context.GetLink(derivedTypes[c].Destination))}\"");
 									}			
 								}		
 							}						
@@ -127,9 +127,9 @@
 								for(int c = 0 ; c < implementingTypes.Count ; c++)
 								{
 									hierarchy.AppendLine($"\tImplementing{c}[\"{System.Net.WebUtility.HtmlEncode(implementingTypes[c].GetString(CodeAnalysisKeys.DisplayName))}\"]-.->Type");			
-									if(implementingTypes[c].ContainsKey("Destination"))
+									if(!implementingTypes[c].Destination.IsNull)
 									{
-										hierarchy.AppendLine($"\tclick Implementing{c} \"{(Context.GetLink(implementingTypes[c].GetPath("WritePath")))}\"");
+										hierarchy.AppendLine($"\tclick Implementing{c} \"{(Context.GetLink(implementingTypes[c].Destination))}\"");
 									}							
 								}
 							}
