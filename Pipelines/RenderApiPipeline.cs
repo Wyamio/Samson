@@ -14,12 +14,12 @@ namespace Generator.Pipelines
     {
         public RenderApiPipeline()
         {
-            Dependencies.Add(nameof(ApiPipeline));
+            Dependencies.Add(nameof(Statiq.Docs.Pipelines.Api));
 
             ProcessModules = new ModuleList(
                 new ExecuteIf(
-                    Config.FromContext(ctx => ctx.Outputs.FromPipeline(nameof(ApiPipeline)).Any()),
-                    new ConcatDocuments(nameof(ApiPipeline)),
+                    Config.FromContext(ctx => ctx.Outputs.FromPipeline(nameof(Statiq.Docs.Pipelines.Api)).Any()),
+                    new ConcatDocuments(nameof(Statiq.Docs.Pipelines.Api)),
                     new ProcessShortcodes(),
                     new RenderRazor()
                         .WithLayout("/_ApiLayout.cshtml"),

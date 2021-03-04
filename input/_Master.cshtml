@@ -3,12 +3,12 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
-        <meta name="description" content="@Context.GetString(DocsKeys.Description)" />
+        <meta name="description" content="@Context.GetString(SamsonKeys.Description)" />
         <meta name="keywords" content="static content generator,static site generator,static site,HTML,web development,.NET,C#,Razor,Markdown,YAML" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="shortcut icon" href="@Context.GetLink("/assets/img/favicon.ico")" type="image/x-icon">
         <link rel="icon" href="@Context.GetLink("/assets/img/favicon.ico")" type="image/x-icon">
-        <title>@Context.GetString(DocsKeys.Title, "Docs") - @ViewData[Keys.Title]</title>
+        <title>@Context.GetString(SamsonKeys.Title, "Docs") - @ViewData[Keys.Title]</title>
         <link href="@Context.GetLink("/assets/css/highlight.css")" rel="stylesheet">
         <link href="@Context.GetLink("/assets/css/bootstrap/bootstrap.css")" rel="stylesheet" />
         <link href="@Context.GetLink("/assets/css/adminlte/AdminLTE.css")" rel="stylesheet" />
@@ -32,13 +32,13 @@
         @Html.Partial("_Head")
     </head>
     @{
-        string layoutTopNav = Model.GetBool(DocsKeys.NoSidebar, false) ? "layout-top-nav" : string.Empty;
-        string noGutter = Model.GetBool(DocsKeys.NoGutter, false) ? "no-gutter" : string.Empty;
+        string layoutTopNav = Model.GetBool(SamsonKeys.NoSidebar, false) ? "layout-top-nav" : string.Empty;
+        string noGutter = Model.GetBool(SamsonKeys.NoGutter, false) ? "no-gutter" : string.Empty;
     }
     <body class="hold-transition wyam layout-boxed @layoutTopNav @noGutter">    
         <div class="top-banner"></div>
         @{
-            string withContainer = Model.GetBool(DocsKeys.NoContainer, false) ? null : "with-container";
+            string withContainer = Model.GetBool(SamsonKeys.NoContainer, false) ? null : "with-container";
         }
         <div class="wrapper @withContainer">
             <!-- Header -->
@@ -46,7 +46,7 @@
                      
                 <a href="@Context.GetLink("/")" class="logo">
                     @{
-                        NormalizedPath logo = Context.GetPath(DocsKeys.Logo);
+                        NormalizedPath logo = Context.GetPath(SamsonKeys.Logo);
                         if(logo != null)
                         {
                             <text>
@@ -58,7 +58,7 @@
                         }
                         else
                         {
-                            <span>@Context.GetString(DocsKeys.Title, "Docs")</span>
+                            <span>@Context.GetString(SamsonKeys.Title, "Docs")</span>
                         }
                     }
                 </a>   

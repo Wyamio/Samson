@@ -6,7 +6,7 @@
 	Layout = "/_Layout.cshtml";
 	@Html.Partial("Section\\_DocsTable", new DocsTable
 {
-    Docs = Outputs.FromPipeline(nameof(ApiPipeline))
+    Docs = Outputs.FromPipeline(nameof(Statiq.Docs.Pipelines.Api))
             .Where(x => x.GetString("Kind") == "Namespace")
             .OrderBy(x => x.GetString("DisplayName"))
             .ToList(),
