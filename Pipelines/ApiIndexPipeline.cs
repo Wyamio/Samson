@@ -1,5 +1,6 @@
 ﻿using Statiq.Common;
 using Statiq.Core;
+using Statiq.Docs;
 using Statiq.Razor;
 using System.Linq;
 
@@ -12,14 +13,14 @@ namespace Generator.Pipelines
     {
         public ApiIndexPipeline()
         {
-            Dependencies.Add(nameof(ApiPipeline));
+            Dependencies.Add(nameof(Statiq.Docs.Pipelines.Api));
 
             InputModules = new ModuleList(
                 new ReadFiles("_ApiIndex.cshtml"));
 
             ProcessModules = new ModuleList(
                 new ExecuteIf(
-                    Config.FromContext(ctx => ctx.Outputs.FromPipeline(nameof(ApiPipeline)).Any()),
+                    Config.FromContext(ctx => ctx.Outputs.FromPipeline(nameof(Statiq.Docs.Pipelines.Api)).Any()),
                     new SetDestination(Config.FromSettings(settings => settings.GetPath(DocsKeys.ApiPath).Combine("index.html"))),
                     new SetMetadata(Keys.Title, "API"),
                     new ProcessShortcodes(),

@@ -3,7 +3,7 @@
 @{
     // Group by category
     IList<IGrouping<string, IDocument>> categoryGroups = Model
-        .GroupBy(x => x.GetString(DocsKeys.Category))
+        .GroupBy(x => x.GetString(SamsonKeys.Category))
         .OrderBy(x => x.Key)
         .ToList();
     foreach (IGrouping<string, IDocument> categoryGroup in categoryGroups)
@@ -15,8 +15,8 @@
 
         // Iterate documents in this category
         foreach (IDocument child in categoryGroup
-            .Where(x => x.GetBool(DocsKeys.ShowInSidebar, true))
-            .OrderBy(x => x.Get<int>(DocsKeys.Order, 1000))
+            .Where(x => x.GetBool(SamsonKeys.ShowInSidebar, true))
+            .OrderBy(x => x.Get<int>(SamsonKeys.Order, 1000))
             .ThenBy(x => x.WithoutSettings().GetString(Keys.Title)))
         {
             object[] currentTreePath = Document.Get<object[]>(Keys.TreePath);
