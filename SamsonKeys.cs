@@ -6,7 +6,7 @@ namespace Generator
     /// <summary>
     /// Metadata keys used by the docs recipe.
     /// </summary>
-    public static class DocsKeys
+    public static class SamsonKeys
     {
         /// <summary>
         /// The title of the site, post, or page.
@@ -21,49 +21,12 @@ namespace Generator
         public const string Logo = nameof(Logo);
 
         /// <summary>
-        /// Indicates where to locate source files for the API documentation.
-        /// By default the globbing pattern "src/**/{!bin,!obj,!packages,!*.Tests,}/**/*.cs"
-        /// is used which searches for all "*.cs" files at any depth under a "src" folder
-        /// but not under "bin", "obj", "packages" or "Tests" folders. You can specify
-        /// your own globbing pattern (or more than one globbing pattern) if your source
-        /// files are found elsewhere.
-        /// </summary>
-        /// <type><see cref="string"/> or <c>IEnumerable&lt;string&gt;</c></type>
-        public const string SourceFiles = nameof(SourceFiles);
-
-        /// <summary>
-        /// Indicates where to locate project files for the API documentation.
-        /// </summary>
-        /// <type><see cref="string"/> or <c>IEnumerable&lt;string&gt;</c></type>
-        public const string ProjectFiles = nameof(ProjectFiles);
-
-        /// <summary>
-        /// Indicates where to locate solution files for the API documentation.
-        /// </summary>
-        /// <type><see cref="string"/> or <c>IEnumerable&lt;string&gt;</c></type>
-        public const string SolutionFiles = nameof(SolutionFiles);
-
-        /// <summary>
-        /// Indicates where to locate assemblies for the API documentation. You can specify
-        /// one (or more) globbing pattern(s).
-        /// </summary>
-        /// <type><see cref="string"/> or <c>IEnumerable&lt;string&gt;</c></type>
-        public const string AssemblyFiles = nameof(AssemblyFiles);
-
-        /// <summary>
         /// The base URL for generating edit links for content and blog pages.
         /// The edit link combines this base URL with the relative path of the
         /// input file.
         /// </summary>
         /// <type><see cref="string"/></type>
         public const string BaseEditUrl = nameof(BaseEditUrl);
-
-        /// <summary>
-        /// Controls whether the global namespace is included in your API
-        /// documentation.
-        /// </summary>
-        /// <type><see cref="bool"/></type>
-        public const string IncludeGlobalNamespace = nameof(IncludeGlobalNamespace);
 
         /// <summary>
         /// Controls whether type names from the API enclosed in code fences in either
@@ -231,12 +194,6 @@ namespace Generator
         public const string BlogTitle = nameof(BlogTitle);
 
         /// <summary>
-        /// Controls the parent path where API docs are placed. The default is "api".
-        /// </summary>
-        /// <type><see cref="DirectoryPath"/> or <see cref="string"/></type>
-        public const string ApiPath = nameof(ApiPath);
-
-        /// <summary>
         /// Used by blog posts and pages to indicate the author.
         /// </summary>
         /// <type><see cref="string"/></type>
@@ -336,13 +293,6 @@ namespace Generator
         /// </summary>
         /// <type><see cref="bool"/></type>
         public const string ShowInSidebar = nameof(ShowInSidebar);
-
-        /// <summary>
-        /// Setting this to <c>true</c> will assume <c>inheritdoc</c> for all API symbols
-        /// that don't provide their own documentation comments.
-        /// </summary>
-        /// <type><see cref="bool"/></type>
-        public const string ImplicitInheritDoc = nameof(ImplicitInheritDoc);
 
         /// <summary>
         /// Set to <c>true</c> to prepend a configured <c>LinkRoot</c> to all root-relative Markdown links.

@@ -4,7 +4,7 @@
 	{
 		IList<IGrouping<string, IDocument>> categoryGroups = 
 			children
-				.GroupBy(x => x.GetString(DocsKeys.Category))
+				.GroupBy(x => x.GetString(SamsonKeys.Category))
 				.OrderBy(x => x.Key)
 				.ToList();
 	
@@ -22,7 +22,7 @@
 						
 						<tbody>
 							@foreach(IDocument child in categoryGroup
-								.OrderBy(x => x.Get<int>(DocsKeys.Order, 1000))
+								.OrderBy(x => x.Get<int>(SamsonKeys.Order, 1000))
 								.ThenBy(x => x.WithoutSettings().GetString(Keys.Title)))
 							{
 								object[] childTreePath = child.Get<object[]>(Keys.TreePath);
@@ -30,9 +30,9 @@
 									<td><strong><a href="@Context.GetLink(child)">@(child.WithoutSettings().GetString(Keys.Title, childTreePath.Last().ToString()))</a></strong></td>
 									<td>
 										@{
-											if(child.ContainsKey(DocsKeys.Description))
+											if(child.ContainsKey(SamsonKeys.Description))
 											{
-												<text>@(child.GetString(DocsKeys.Description))</text>
+												<text>@(child.GetString(SamsonKeys.Description))</text>
 											}					
 										}
 									</td>

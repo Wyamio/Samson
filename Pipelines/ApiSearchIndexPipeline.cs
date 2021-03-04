@@ -27,7 +27,7 @@
 //        private static IModuleList GetModules() => new ModuleList
 //        {
 //            new If(
-//                ctx => ctx.Documents[Docs.Api].Any() && ctx.Bool(DocsKeys.SearchIndex),
+//                ctx => ctx.Documents[Docs.Api].Any() && ctx.Bool(SamsonKeys.SearchIndex),
 //                new Documents(Docs.Api),
 //                new Where((doc, ctx) => doc.String(CodeAnalysisKeys.Kind) == "NamedType"),
 //                new SearchIndex.SearchIndex((doc, ctx) =>

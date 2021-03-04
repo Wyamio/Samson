@@ -1,7 +1,7 @@
 @{
     List<Tuple<string, string>> pages = new List<Tuple<string, string>>();/*Context
         .Documents[Docs.Pages]
-        .Where(x => x.Bool(DocsKeys.ShowInNavbar, true))
+        .Where(x => x.Bool(SamsonKeys.ShowInNavbar, true))
         .Where(x => x.FilePath(Keys.RelativeFilePath)?.FullPath?.StartsWith("index") == (bool?)false)
         .Select(x => Tuple.Create(x.WithoutSettings.String(Keys.Title), Context.GetLink(x)))
         .Where(x => !string.IsNullOrEmpty(x.Item1))
@@ -9,9 +9,9 @@
         .ToList();*/
     /*if(Documents[Docs.BlogPosts].Any())
     {
-        pages.Add(Tuple.Create(Context.String(DocsKeys.BlogTitle), Context.GetLink(Context.String(DocsKeys.BlogPath))));
+        pages.Add(Tuple.Create(Context.String(SamsonKeys.BlogTitle), Context.GetLink(Context.String(DocsKeys.BlogPath))));
     }*/
-    if(Outputs.FromPipeline(nameof(ApiPipeline)).Any())
+    if (Outputs.FromPipeline(nameof(Statiq.Docs.Pipelines.Api)).Any())
     {
         pages.Add(Tuple.Create("API", Context.GetLink(Context.GetPath(DocsKeys.ApiPath))));
     }
