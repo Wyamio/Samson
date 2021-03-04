@@ -15,15 +15,15 @@
 		<li role="separator" class="divider"></li>
 		
 		foreach(IGrouping<string, IDocument> typeGroup 
-			in containingNamespace.List<IDocument>("MemberTypes")
-				.Where(x => x.Bool("IsResult") && x["Kind"].Equals("NamedType"))
-				.GroupBy(x => x.String("SpecificKind")))
+			in containingNamespace.GetList<IDocument>("MemberTypes")
+				.Where(x => x.GetBool("IsResult") && x["Kind"].Equals("NamedType"))
+				.GroupBy(x => x.GetString("SpecificKind")))
 		{
 			<li class="header">@typeGroup.Key Types</li>
 			foreach(IDocument type in typeGroup
-				.OrderBy(x => x.String("Name")))
+				.OrderBy(x => x.GetString("Name")))
 			{
-				string selectedClass = type.String("SymbolId") == Model.String("SymbolId") ? "selected" : null;
+				string selectedClass = type.GetString("SymbolId") == Model.GetString("SymbolId") ? "selected" : null;
 				<li class="@selectedClass">@Context.GetTypeLink(type, false)</li>
 			}	
 		}

@@ -61,9 +61,9 @@ namespace Generator
                         .Insert(begin, string.Join(", <wbr>", typeArguments.Select(x => context.GetTypeLink(x, true).Value)));
 
                     // Insert the link for the type
-                    if (metadata.ContainsKey(Keys.DestinationPath))
+                    if (metadata.ContainsKey("Destination"))
                     {
-                        name = name.Insert(begin - 9, "</a>").Insert(0, $"<a href=\"{context.GetLink(metadata.GetPath(Keys.DestinationPath))}\">");
+                        name = name.Insert(begin - 9, "</a>").Insert(0, $"<a href=\"{context.GetLink(metadata.GetPath("Destination"))}\">");
                     }
 
                     return new HtmlString(name);
@@ -76,14 +76,14 @@ namespace Generator
                 IDocument declaringType = metadata.GetDocument(CodeAnalysisKeys.DeclaringType)?.GetDocument(CodeAnalysisKeys.OriginalDefinition);
                 if (declaringType != null)
                 {
-                    return new HtmlString(declaringType.ContainsKey(Keys.DestinationPath)
-                        ? $"<a href=\"{context.GetLink(declaringType.GetPath(Keys.DestinationPath))}#typeparam-{metadata["Name"]}\">{name}</a>"
+                    return new HtmlString(declaringType.ContainsKey("Destination")
+                        ? $"<a href=\"{context.GetLink(declaringType.GetPath("Destination"))}#typeparam-{metadata["Name"]}\">{name}</a>"
                         : name);
                 }
             }
 
-            return new HtmlString(metadata.ContainsKey(Keys.DestinationPath)
-                ? $"<a href=\"{context.GetLink(metadata.GetPath(Keys.DestinationPath))}\">{name}</a>"
+            return new HtmlString(metadata.ContainsKey("Destination")
+                ? $"<a href=\"{context.GetLink(metadata.GetPath("Destination"))}\">{name}</a>"
                 : name);
         }
 
