@@ -56,14 +56,17 @@ namespace Generator
                     int end = name.LastIndexOf("&gt;<wbr>", openParen == -1 ? name.Length : openParen);  // Don't look past the opening paren if there is one
 
                     // Remove existing type arguments and insert linked type arguments (do this first to preserve original indexes)
-                    name = name
-                        .Remove(begin, end - begin)
-                        .Insert(begin, string.Join(", <wbr>", typeArguments.Select(x => context.GetTypeLink(x, true).Value)));
-
-                    // Insert the link for the type
-                    if (!document.Destination.IsNull)
+                    if (end - begin > 0)
                     {
-                        name = name.Insert(begin - 9, "</a>").Insert(0, $"<a href=\"{context.GetLink(document.Destination)}\">");
+                        name = name
+                            .Remove(begin, end - begin)
+                            .Insert(begin, string.Join(", <wbr>", typeArguments.Select(x => context.GetTypeLink(x, true).Value)));
+
+                        // Insert the link for the type
+                        if (!document.Destination.IsNull)
+                        {
+                            name = name.Insert(begin - 9, "</a>").Insert(0, $"<a href=\"{context.GetLink(document.Destination)}\">");
+                        }
                     }
 
                     return new HtmlString(name);
