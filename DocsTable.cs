@@ -1,4 +1,4 @@
-﻿using Statiq.Common;
+using Statiq.Common;
 using System.Collections.Generic;
 
 namespace Generator
@@ -8,9 +8,9 @@ namespace Generator
     /// </summary>
     public class DocsTable
     {
-        public IList<IDocument> Docs { get; set; }
-        public string Title { get; set; }
-        public string Header { get; set; }
+        public IList<IDocument> Docs { get; set; } = new List<IDocument>();
+        public string Title { get; set; } = string.Empty;
+        public string Header { get; set; } = string.Empty;
         public bool HasSummary { get; set; }
         public bool LinkTypeArguments { get; set; } = true;
     }
